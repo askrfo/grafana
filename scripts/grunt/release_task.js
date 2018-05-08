@@ -3,9 +3,16 @@ var path = require('path');
 module.exports = function(grunt) {
   "use strict";
 
-  // build, then zip and upload to s3
+  // build then zip
   grunt.registerTask('release', [
     'build',
+    'build-post-process',
+    'compress:release'
+  ]);
+
+  // package into archives
+  grunt.registerTask('package', [
+    'clean:temp',
     'build-post-process',
     'compress:release'
   ]);

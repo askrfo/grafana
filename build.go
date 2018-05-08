@@ -90,7 +90,6 @@ func main() {
 			clean()
 			build("grafana-server", "./pkg/cmd/grafana-server", []string{})
 
-		// TODO: I want targets for platforms in here perhaps, but config outside??
 		case "build":
 			//clean()
 			for _, binary := range binaries {
@@ -105,18 +104,11 @@ func main() {
 			grunt("test")
 
 		case "package":
-			grunt("clean:temp")
-			platformArg := fmt.Sprintf("--platform=%v", goos)
-			postProcessArgs := gruntBuildArg("build-post-process")
-			postProcessArgs = append(postProcessArgs, platformArg)
-			grunt(postProcessArgs...)
-			releaseArgs := gruntBuildArg("compress:release")
-			releaseArgs = append(releaseArgs, platformArg)
-			grunt(releaseArgs...)
+			grunt(gruntBuildArg("build")...)
+			packageGrafana()
 
-			//if runtime.GOOS != "windows" {
-			//	createLinuxPackages()
-			//}
+		case "package-only":
+			packageGrafana()
 
 		case "pkg-rpm":
 			grunt(gruntBuildArg("release")...)
@@ -138,6 +130,22 @@ func main() {
 		default:
 			log.Fatalf("Unknown command %q", cmd)
 		}
+	}
+}
+
+func packageGrafana() {
+	platformArg := fmt.Sprintf("--platform=%v", goos)
+	previousPkgArch := pkgArch
+	if pkgArch == "" {
+		pkgArch = goarch
+	}
+	postProcessArgs := gruntBuildArg("package")
+	postProcessArgs = append(postProcessArgs, platformArg)
+	grunt(postProcessArgs...)
+	pkgArch = previousPkgArch
+
+	if goos == "linux" {
+		createLinuxPackages()
 	}
 }
 
@@ -397,6 +405,7 @@ func test(pkg string) {
 
 func build(binaryName, pkg string, tags []string) {
 	binary := fmt.Sprintf("./bin/%s-%s/%s", goos, goarch, binaryName)
+
 	if goos == "windows" {
 		binary += ".exe"
 	}

@@ -75,7 +75,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: prep compilers
+          name: prepare build tools
           command: '/tmp/bootstrap.sh'
       - run:
           name: build and package grafana

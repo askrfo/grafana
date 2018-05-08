@@ -38,22 +38,26 @@ source /etc/profile.d/rvm.sh
 
 echo "current dir: $(pwd)"
 
+if [ -d "dist" ]; then
+  rm -rf dist
+fi
+
 if [ "$CIRCLE_TAG" != "" ]; then
   echo "Building frontend from tag $CIRCLE_TAG"
   go run build.go -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false build-frontend
   echo "Packaging a release from tag $CIRCLE_TAG"
-  go run build.go -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only latest
-  go run build.go -goos linux -pkg-arch armv7 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only latest
-  go run build.go -goos linux -pkg-arch arm64 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only latest
-  go run build.go -goos darwin -pkg-arch amd64 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only latest
-  go run build.go -goos windows -pkg-arch amd64 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only latest
+  go run build.go -goos linux -pkg-arch amd64 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only latest
+  go run build.go -goos linux -pkg-arch armv7 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only
+  go run build.go -goos linux -pkg-arch arm64 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only
+  go run build.go -goos darwin -pkg-arch amd64 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only
+  go run build.go -goos windows -pkg-arch amd64 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only
 else
   echo "Building frontend for $CIRCLE_BRANCH"
   go run build.go -buildNumber=${CIRCLE_BUILD_NUM} build-frontend
   echo "Packaging incremental build for $CIRCLE_BRANCH"
-  go run build.go -buildNumber=${CIRCLE_BUILD_NUM} package-only latest
-  go run build.go -goos linux -pkg-arch armv7 -buildNumber=${CIRCLE_BUILD_NUM} package-only latest
-  go run build.go -goos linux -pkg-arch arm64 -buildNumber=${CIRCLE_BUILD_NUM} package-only latest
-  go run build.go -goos darwin -pkg-arch amd64 -buildNumber=${CIRCLE_BUILD_NUM} package-only latest
-  go run build.go -goos windows -pkg-arch amd64 -buildNumber=${CIRCLE_BUILD_NUM} package-only latest
+  go run build.go -goos linux -pkg-arch amd64 -buildNumber=${CIRCLE_BUILD_NUM} package-only latest
+  go run build.go -goos linux -pkg-arch armv7 -buildNumber=${CIRCLE_BUILD_NUM} package-only
+  go run build.go -goos linux -pkg-arch arm64 -buildNumber=${CIRCLE_BUILD_NUM} package-only
+  go run build.go -goos darwin -pkg-arch amd64 -buildNumber=${CIRCLE_BUILD_NUM} package-only
+  go run build.go -goos windows -pkg-arch amd64 -buildNumber=${CIRCLE_BUILD_NUM} package-only
 fi

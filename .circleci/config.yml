@@ -70,7 +70,7 @@ jobs:
 
   build:
     docker:
-     - image: grafana/build-container:v0.1
+     - image: grafana/build-container:crosscompile
     working_directory: /go/src/github.com/grafana/grafana
     steps:
       - checkout

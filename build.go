@@ -27,8 +27,7 @@ var (
 	goarch  string
 	goos    string
 	gocc    string
-	gocxx   string
-	cgo     string
+	cgo     bool
 	pkgArch string
 	version string = "v1"
 	// deb & rpm does not support semver so have to handle their version a little differently
@@ -53,8 +52,7 @@ func main() {
 	flag.StringVar(&goarch, "goarch", runtime.GOARCH, "GOARCH")
 	flag.StringVar(&goos, "goos", runtime.GOOS, "GOOS")
 	flag.StringVar(&gocc, "cc", "", "CC")
-	flag.StringVar(&gocxx, "cxx", "", "CXX")
-	flag.StringVar(&cgo, "cgo-enabled", "", "CGO_ENABLED")
+	flag.BoolVar(&cgo, "cgo-enabled", cgo, "Enable cgo")
 	flag.StringVar(&pkgArch, "pkg-arch", "", "PKG ARCH")
 	flag.StringVar(&phjsToRelease, "phjs", "", "PhantomJS binary")
 	flag.BoolVar(&race, "race", race, "Use race detector")
@@ -92,21 +90,33 @@ func main() {
 			clean()
 			build("grafana-server", "./pkg/cmd/grafana-server", []string{})
 
+		// TODO: I want targets for platforms in here perhaps, but config outside??
 		case "build":
-			clean()
+			//clean()
 			for _, binary := range binaries {
 				build(binary, "./pkg/cmd/"+binary, []string{})
 			}
+
+		case "build-frontend":
+			grunt(gruntBuildArg("build")...)
 
 		case "test":
 			test("./pkg/...")
 			grunt("test")
 
 		case "package":
-			grunt(gruntBuildArg("release")...)
-			if runtime.GOOS != "windows" {
-				createLinuxPackages()
-			}
+			grunt("clean:temp")
+			platformArg := fmt.Sprintf("--platform=%v", goos)
+			postProcessArgs := gruntBuildArg("build-post-process")
+			postProcessArgs = append(postProcessArgs, platformArg)
+			grunt(postProcessArgs...)
+			releaseArgs := gruntBuildArg("compress:release")
+			releaseArgs = append(releaseArgs, platformArg)
+			grunt(releaseArgs...)
+
+			//if runtime.GOOS != "windows" {
+			//	createLinuxPackages()
+			//}
 
 		case "pkg-rpm":
 			grunt(gruntBuildArg("release")...)
@@ -386,7 +396,7 @@ func test(pkg string) {
 }
 
 func build(binaryName, pkg string, tags []string) {
-	binary := "./bin/" + binaryName
+	binary := fmt.Sprintf("./bin/%s-%s/%s", goos, goarch, binaryName)
 	if goos == "windows" {
 		binary += ".exe"
 	}
@@ -408,6 +418,7 @@ func build(binaryName, pkg string, tags []string) {
 	if !isDev {
 		setBuildEnv()
 		runPrint("go", "version")
+		fmt.Printf("Targeting %s/%s\n", goos, goarch)
 	}
 
 	runPrint("go", args...)
@@ -451,6 +462,14 @@ func clean() {
 
 func setBuildEnv() {
 	os.Setenv("GOOS", goos)
+	if goos == "windows" {
+		// require windows >=7
+		os.Setenv("CGO_CFLAGS", "-D_WIN32_WINNT=0x0601")
+	}
+	if goarch != "amd64" || goos != "linux" {
+		// needed for all other archs
+		cgo = true
+	}
 	if strings.HasPrefix(goarch, "armv") {
 		os.Setenv("GOARCH", "arm")
 		os.Setenv("GOARM", goarch[4:])
@@ -460,14 +479,11 @@ func setBuildEnv() {
 	if goarch == "386" {
 		os.Setenv("GO386", "387")
 	}
-	if cgo != "" {
-		os.Setenv("CGO_ENABLED", cgo)
+	if cgo {
+		os.Setenv("CGO_ENABLED", "1")
 	}
 	if gocc != "" {
 		os.Setenv("CC", gocc)
-	}
-	if gocxx != "" {
-		os.Setenv("CXX", gocxx)
 	}
 }
 

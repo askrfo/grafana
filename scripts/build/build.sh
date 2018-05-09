@@ -18,18 +18,18 @@ echo "current dir: $(pwd)"
 
 if [ "$CIRCLE_TAG" != "" ]; then
   echo "Building releases from tag $CIRCLE_TAG"
-  go run build.go -goarch armv7 -cc ${CCARMV7} -includeBuildNumber=false build
-  go run build.go -goarch arm64 -cc ${CCARM64} -includeBuildNumber=false build
-  go run build.go -goos darwin -cc ${CCOSX64} -includeBuildNumber=false build
-  go run build.go -goos windows -cc ${CCWIN64} -includeBuildNumber=false build
-  CC=${CCX64} go run build.go -includeBuildNumber=false build
+  go run build.go -goarch armv7 -cc ${CCARMV7} -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false build
+  go run build.go -goarch arm64 -cc ${CCARM64} -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false build
+  go run build.go -goos darwin -cc ${CCOSX64} -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false build
+  go run build.go -goos windows -cc ${CCWIN64} -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false build
+  CC=${CCX64} go run build.go -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false build
 else
   echo "Building incremental build for $CIRCLE_BRANCH"
-  go run build.go -goarch armv7 -cc ${CCARMV7} build
-  go run build.go -goarch arm64 -cc ${CCARM64} build
-  go run build.go -goos darwin -cc ${CCOSX64} build
-  go run build.go -goos windows -cc ${CCWIN64} build
-  CC=${CCX64} go run build.go build
+  go run build.go -goarch armv7 -cc ${CCARMV7} -buildNumber=${CIRCLE_BUILD_NUM} build
+  go run build.go -goarch arm64 -cc ${CCARM64} -buildNumber=${CIRCLE_BUILD_NUM} build
+  go run build.go -goos darwin -cc ${CCOSX64} -buildNumber=${CIRCLE_BUILD_NUM} build
+  go run build.go -goos windows -cc ${CCWIN64} -buildNumber=${CIRCLE_BUILD_NUM} build
+  CC=${CCX64} go run build.go -buildNumber=${CIRCLE_BUILD_NUM} build
 fi
 
 yarn install --pure-lockfile --no-progress

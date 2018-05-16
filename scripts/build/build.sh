@@ -18,11 +18,11 @@ echo "current dir: $(pwd)"
 
 if [ "$CIRCLE_TAG" != "" ]; then
   echo "Building releases from tag $CIRCLE_TAG"
-  go run build.go -goarch armv7 -cc ${CCARMV7} -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false build
-  go run build.go -goarch arm64 -cc ${CCARM64} -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false build
-  go run build.go -goos darwin -cc ${CCOSX64} -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false build
-  go run build.go -goos windows -cc ${CCWIN64} -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false build
-  CC=${CCX64} go run build.go -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false build
+  go run build.go -goarch armv7 -cc ${CCARMV7} -includeBuildNumber=false build
+  go run build.go -goarch arm64 -cc ${CCARM64} -includeBuildNumber=false build
+  go run build.go -goos darwin -cc ${CCOSX64} -includeBuildNumber=false build
+  go run build.go -goos windows -cc ${CCWIN64} -includeBuildNumber=false build
+  CC=${CCX64} go run build.go -includeBuildNumber=false build
 else
   echo "Building incremental build for $CIRCLE_BRANCH"
   go run build.go -goarch armv7 -cc ${CCARMV7} -buildNumber=${CIRCLE_BUILD_NUM} build
@@ -34,8 +34,6 @@ fi
 
 yarn install --pure-lockfile --no-progress
 
-source /etc/profile.d/rvm.sh
-
 echo "current dir: $(pwd)"
 
 if [ -d "dist" ]; then
@@ -44,13 +42,13 @@ fi
 
 if [ "$CIRCLE_TAG" != "" ]; then
   echo "Building frontend from tag $CIRCLE_TAG"
-  go run build.go -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false build-frontend
+  go run build.go -includeBuildNumber=false build-frontend
   echo "Packaging a release from tag $CIRCLE_TAG"
-  go run build.go -goos linux -pkg-arch amd64 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only latest
-  go run build.go -goos linux -pkg-arch armv7 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only
-  go run build.go -goos linux -pkg-arch arm64 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only
-  go run build.go -goos darwin -pkg-arch amd64 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only
-  go run build.go -goos windows -pkg-arch amd64 -buildNumber=${CIRCLE_BUILD_NUM} -includeBuildNumber=false package-only
+  go run build.go -goos linux -pkg-arch amd64 -includeBuildNumber=false package-only latest
+  go run build.go -goos linux -pkg-arch armv7 -includeBuildNumber=false package-only
+  go run build.go -goos linux -pkg-arch arm64 -includeBuildNumber=false package-only
+  go run build.go -goos darwin -pkg-arch amd64 -includeBuildNumber=false package-only
+  go run build.go -goos windows -pkg-arch amd64 -includeBuildNumber=false package-only
 else
   echo "Building frontend for $CIRCLE_BRANCH"
   go run build.go -buildNumber=${CIRCLE_BUILD_NUM} build-frontend

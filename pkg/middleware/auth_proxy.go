@@ -7,12 +7,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grafana/grafana/pkg/bus"
-	"github.com/grafana/grafana/pkg/log"
-	"github.com/grafana/grafana/pkg/login"
-	m "github.com/grafana/grafana/pkg/models"
-	"github.com/grafana/grafana/pkg/services/session"
-	"github.com/grafana/grafana/pkg/setting"
+	"github.com/iyeonok/grafana/pkg/bus"
+	"github.com/iyeonok/grafana/pkg/log"
+	"github.com/iyeonok/grafana/pkg/login"
+	m "github.com/iyeonok/grafana/pkg/models"
+	"github.com/iyeonok/grafana/pkg/services/session"
+	"github.com/iyeonok/grafana/pkg/setting"
 )
 
 var AUTH_PROXY_SESSION_VAR = "authProxyHeaderValue"

@@ -18,15 +18,15 @@ import (
 	gocache "github.com/patrickmn/go-cache"
 	macaron "gopkg.in/macaron.v1"
 
-	"github.com/grafana/grafana/pkg/api/live"
-	httpstatic "github.com/grafana/grafana/pkg/api/static"
-	"github.com/grafana/grafana/pkg/bus"
-	"github.com/grafana/grafana/pkg/components/simplejson"
-	"github.com/grafana/grafana/pkg/log"
-	"github.com/grafana/grafana/pkg/middleware"
-	"github.com/grafana/grafana/pkg/models"
-	"github.com/grafana/grafana/pkg/plugins"
-	"github.com/grafana/grafana/pkg/setting"
+	"github.com/iyeonok/grafana/pkg/api/live"
+	httpstatic "github.com/iyeonok/grafana/pkg/api/static"
+	"github.com/iyeonok/grafana/pkg/bus"
+	"github.com/iyeonok/grafana/pkg/components/simplejson"
+	"github.com/iyeonok/grafana/pkg/log"
+	"github.com/iyeonok/grafana/pkg/middleware"
+	"github.com/iyeonok/grafana/pkg/models"
+	"github.com/iyeonok/grafana/pkg/plugins"
+	"github.com/iyeonok/grafana/pkg/setting"
 )
 
 type HTTPServer struct {

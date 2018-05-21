@@ -5,10 +5,10 @@ import (
 
 	"github.com/go-xorm/xorm"
 
-	"github.com/grafana/grafana/pkg/bus"
-	"github.com/grafana/grafana/pkg/components/securejsondata"
-	"github.com/grafana/grafana/pkg/metrics"
-	m "github.com/grafana/grafana/pkg/models"
+	"github.com/iyeonok/grafana/pkg/bus"
+	"github.com/iyeonok/grafana/pkg/components/securejsondata"
+	"github.com/iyeonok/grafana/pkg/metrics"
+	m "github.com/iyeonok/grafana/pkg/models"
 )
 
 func init() {

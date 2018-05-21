@@ -6,13 +6,13 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/grafana/grafana/pkg/bus"
-	"github.com/grafana/grafana/pkg/components/imguploader"
-	"github.com/grafana/grafana/pkg/components/renderer"
-	"github.com/grafana/grafana/pkg/log"
-	"github.com/grafana/grafana/pkg/metrics"
+	"github.com/iyeonok/grafana/pkg/bus"
+	"github.com/iyeonok/grafana/pkg/components/imguploader"
+	"github.com/iyeonok/grafana/pkg/components/renderer"
+	"github.com/iyeonok/grafana/pkg/log"
+	"github.com/iyeonok/grafana/pkg/metrics"
 
-	m "github.com/grafana/grafana/pkg/models"
+	m "github.com/iyeonok/grafana/pkg/models"
 )
 
 type NotifierPlugin struct {

@@ -5,8 +5,8 @@ import (
 
 	"sort"
 
-	"github.com/grafana/grafana/pkg/components/null"
-	"github.com/grafana/grafana/pkg/tsdb"
+	"github.com/iyeonok/grafana/pkg/components/null"
+	"github.com/iyeonok/grafana/pkg/tsdb"
 )
 
 type QueryReducer interface {

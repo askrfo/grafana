@@ -5,11 +5,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/grafana/grafana/pkg/components/simplejson"
-	m "github.com/grafana/grafana/pkg/models"
-	"github.com/grafana/grafana/pkg/services/search"
-	"github.com/grafana/grafana/pkg/setting"
-	"github.com/grafana/grafana/pkg/util"
+	"github.com/iyeonok/grafana/pkg/components/simplejson"
+	m "github.com/iyeonok/grafana/pkg/models"
+	"github.com/iyeonok/grafana/pkg/services/search"
+	"github.com/iyeonok/grafana/pkg/setting"
+	"github.com/iyeonok/grafana/pkg/util"
 	. "github.com/smartystreets/goconvey/convey"
 )
 

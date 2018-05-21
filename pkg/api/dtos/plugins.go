@@ -1,8 +1,8 @@
 package dtos
 
 import (
-	"github.com/grafana/grafana/pkg/components/simplejson"
-	"github.com/grafana/grafana/pkg/plugins"
+	"github.com/iyeonok/grafana/pkg/components/simplejson"
+	"github.com/iyeonok/grafana/pkg/plugins"
 )
 
 type PluginSetting struct {

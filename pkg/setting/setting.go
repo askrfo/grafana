@@ -18,8 +18,8 @@ import (
 
 	"github.com/go-macaron/session"
 
-	"github.com/grafana/grafana/pkg/log"
-	"github.com/grafana/grafana/pkg/util"
+	"github.com/iyeonok/grafana/pkg/log"
+	"github.com/iyeonok/grafana/pkg/util"
 )
 
 type Scheme string

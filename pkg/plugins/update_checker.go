@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grafana/grafana/pkg/log"
-	"github.com/grafana/grafana/pkg/setting"
+	"github.com/iyeonok/grafana/pkg/log"
+	"github.com/iyeonok/grafana/pkg/setting"
 	"github.com/hashicorp/go-version"
 )
 
@@ -99,7 +99,7 @@ func checkForUpdates() {
 		}
 	}
 
-	resp2, err := httpClient.Get("https://raw.githubusercontent.com/grafana/grafana/master/latest.json")
+	resp2, err := httpClient.Get("https://raw.githubusercontent.com/iyeonok/grafana/master/latest.json")
 	if err != nil {
 		log.Trace("Failed to get latest.json repo from github.com: %v", err.Error())
 		return

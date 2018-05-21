@@ -8,11 +8,11 @@ import (
 	"time"
 
 	"github.com/go-xorm/xorm"
-	"github.com/grafana/grafana/pkg/components/simplejson"
-	"github.com/grafana/grafana/pkg/log"
-	"github.com/grafana/grafana/pkg/services/sqlstore"
-	"github.com/grafana/grafana/pkg/services/sqlstore/sqlutil"
-	"github.com/grafana/grafana/pkg/tsdb"
+	"github.com/iyeonok/grafana/pkg/components/simplejson"
+	"github.com/iyeonok/grafana/pkg/log"
+	"github.com/iyeonok/grafana/pkg/services/sqlstore"
+	"github.com/iyeonok/grafana/pkg/services/sqlstore/sqlutil"
+	"github.com/iyeonok/grafana/pkg/tsdb"
 	_ "github.com/lib/pq"
 	. "github.com/smartystreets/goconvey/convey"
 )

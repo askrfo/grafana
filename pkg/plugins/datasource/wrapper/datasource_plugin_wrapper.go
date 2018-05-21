@@ -9,7 +9,7 @@ import (
 	"github.com/iyeonok/grafana/pkg/log"
 	"github.com/iyeonok/grafana/pkg/models"
 	"github.com/iyeonok/grafana/pkg/tsdb"
-	"github.com/iyeonok/grafana_plugin_model/go/datasource"
+	"github.com/grafana/grafana_plugin_model/go/datasource"
 )
 
 func NewDatasourcePluginWrapper(log log.Logger, plugin datasource.DatasourcePlugin) *DatasourcePluginWrapper {
